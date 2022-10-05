@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxGui.h"
+#include "VideoPreview.hpp"
 
 using namespace std;
 
@@ -37,7 +38,7 @@ class ClipProcessor{
 public:
     ClipProcessor(){};
     
-    void Setup(float x, float y)
+    void Setup(float x, float y, VideoPreview * preview)
     {
         _uploadClip.addListener(this, &ClipProcessor::UploadClip);
         _processClip.addListener(this, &ClipProcessor::CutClip);
@@ -45,6 +46,8 @@ public:
         _gui.add(_uploadClip.setup("Upload"));
         _gui.add(_processClip.setup("Cut Clip"));
         _gui.setPosition(x,y);
+        
+        _videoPreview = preview;
     }
     
     void Draw()
@@ -90,6 +93,8 @@ private:
     ofxGuiGroup _gui;
     ofxButton _uploadClip;
     ofxButton _processClip;
+    
+    VideoPreview * _videoPreview;
 
     bool _isProcessing = false;
     int _clipCount = 1;
@@ -98,6 +103,7 @@ private:
         ofFileDialogResult result = ofSystemLoadDialog("Load file");
         if(result.bSuccess) {
             string path = result.getPath();
+            _videoPreview->SetFile(path);
             ofLogNotice() << path;
         }
     }

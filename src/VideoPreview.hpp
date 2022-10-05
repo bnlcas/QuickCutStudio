@@ -38,9 +38,9 @@ public:
         _videoPlayerBounds = bounds;
     }
     
-    void SetFile()
+    void SetFile(string fileName)
     {
-        _previewPlayer.load("test.mp4");
+        _previewPlayer.load(fileName);
     }
     
     void Update()
@@ -85,7 +85,6 @@ public:
         
             
         _previewPlayer.setFrame(setFrameNumber);
-        
         //ofLogNotice() << frameNumber;
         //ofLogNotice() << _previewPlayer.getSpeed();
         //ofLogNotice() << _previewPlayer.getDuration();
