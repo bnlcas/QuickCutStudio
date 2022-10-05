@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "VideoPreview.hpp"
+#include "CutToolsGUI.hpp"
 
 using namespace std;
 
@@ -38,7 +39,7 @@ class ClipProcessor{
 public:
     ClipProcessor(){};
     
-    void Setup(float x, float y, VideoPreview * preview)
+    void Setup(float x, float y, VideoPreview * preview, CutToolsGUI * cutParameters)
     {
         _uploadClip.addListener(this, &ClipProcessor::UploadClip);
         _processClip.addListener(this, &ClipProcessor::CutClip);
@@ -47,6 +48,7 @@ public:
         _gui.add(_processClip.setup("Cut Clip"));
         _gui.setPosition(x,y);
         
+        _cutParameters = cutParameters;
         _videoPreview = preview;
     }
     
@@ -58,12 +60,15 @@ public:
     void CutClip()
     {
         _isProcessing = true;
-        std::string originalFile = "test.mp4";
-        std::string dir = ofFilePath::getAbsolutePath("test.mp4");
+        std::string originalFile = _videoPreview->GetFile();
+        std::string out_dir = ofFilePath::getAbsolutePath("Clips");
         std::string filenameOut = ofFilePath::getBaseName(originalFile) + "_" + to_string(_clipCount) + "." + ofFilePath::getFileExt(originalFile);
+        
+        ofLogNotice() << originalFile;
+        ofLogNotice() << filenameOut;
 
-        float clipStartTime = 1.23f;
-        float clipEndTime = 2.4556f;
+        float clipStartTime = _cutParameters->GetStartTime();
+        float clipEndTime = _cutParameters->GetEndTime();
         Interval clipInterval { clipStartTime, clipEndTime };
                 
         int outWidth = 640;
@@ -77,7 +82,9 @@ public:
         int crop_H = 320;
         BoundingBox bbox { crop_X, crop_Y, crop_W, crop_H };
         
-        std::string outCommand = FormatFFMPEGCommand(dir + originalFile, dir+filenameOut, clipInterval, clipSize, bbox);
+        std::string outCommand = FormatFFMPEGCommand(originalFile, out_dir+"/"+filenameOut, clipInterval, clipSize, bbox);
+        
+        ofLogNotice() << outCommand;
         ofSystem(outCommand);
         
         _clipCount += 1;
@@ -95,6 +102,7 @@ private:
     ofxButton _processClip;
     
     VideoPreview * _videoPreview;
+    CutToolsGUI * _cutParameters;
 
     bool _isProcessing = false;
     int _clipCount = 1;
@@ -115,11 +123,13 @@ private:
         command += " -ss " + to_string(clipInterval.startTime);
         command += " -t " + to_string(duration);
         
+        /*
         string crop_bbox = "crop=" + to_string(crop.w) + ":" + to_string(crop.h) + ":" + to_string(crop.x) + ":" + to_string(crop.h);
 
         string aspect = "size=" + to_string(clipSize.width) + ":" + to_string(clipSize.height);
         
         command += " -vf "  + to_string('"') +  crop_bbox + "," + aspect +  to_string('"');
+         */
         command += " " + fOut;
         return command;
     };

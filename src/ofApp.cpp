@@ -12,9 +12,9 @@ void ofApp::setup(){
     
     float gui_y = videoY + videoH + 25;
     _videoPreview.Setup(VideoPreviewRegion, videoX,  gui_y);
-    _cutToolsGui.Setup(videoX+250.0f, gui_y);
+    _cutToolsGui.Setup(videoX+250.0f, gui_y, &_videoPreview);
     _cropTool.Setup(VideoPreviewRegion, videoX + 750.0f, gui_y);
-    _clipProcessor.Setup(videoX + 500.0f, gui_y, &_videoPreview);
+    _clipProcessor.Setup(videoX + 500.0f, gui_y, &_videoPreview, &_cutToolsGui);
 }
 
 //--------------------------------------------------------------

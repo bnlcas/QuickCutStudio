@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "CutToolsGUI.hpp"
 
 
 class VideoPreview{
@@ -27,7 +26,7 @@ public:
         _forwardFrame.addListener(this, &VideoPreview::ForwardOneFrame);
         _backFrame.addListener(this, &VideoPreview::BackOneFrame);
         
-        _percentageComplete.addListener(this, &VideoPreview::SetPosition);
+        _percentageComplete.addListener(this, &VideoPreview::SetCurrentPrecentage);
         _gui.setup();
         _gui.add(_percentageComplete.set("Percentage", 0, 0, 1));
         
@@ -41,6 +40,11 @@ public:
     void SetFile(string fileName)
     {
         _previewPlayer.load(fileName);
+    }
+    
+    std::string GetFile()
+    {
+        return _previewPlayer.getMoviePath();
     }
     
     void Update()
@@ -60,37 +64,18 @@ public:
         _previewPlayer.draw(_videoPlayerBounds);
     }
     
-    void SetPosition(float & position)
+    float GetVideoDuration()
+    {
+        return _previewPlayer.getDuration();
+    }
+        
+    void SetCurrentPrecentage(float & position)
     {
         PauseVideo();
         //_previewPlayer.setPosition(position);
         int setFrameNumber = (int) (position * (float) _previewPlayer.getTotalNumFrames());
-        
-        /*int deltaFrames = setFrameNumber - _previewPlayer.getCurrentFrame();
-        
-        if(deltaFrames > 0)
-        {
-            for(int i = 0; i < deltaFrames; i++)
-            {
-                _previewPlayer.nextFrame();
-            }
-        }
-        else
-        {
-            for(int i = 0; i < -deltaFrames; i++)
-            {
-                _previewPlayer.previousFrame();
-            }
-        }*/
-        
             
         _previewPlayer.setFrame(setFrameNumber);
-        //ofLogNotice() << frameNumber;
-        //ofLogNotice() << _previewPlayer.getSpeed();
-        //ofLogNotice() << _previewPlayer.getDuration();
-        //_previewPlayer.setSpeed(1);
-        //_previewPlayer.setPosition(0.5);
-        //_previewPlayer.setPaused(true);
     }
     
     void KeyboardNavigate(int key)
