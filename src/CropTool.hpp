@@ -24,7 +24,6 @@ public:
      
     void DrawCropPreview();
     
-    
     void CheckClick(int x, int y);
     
     void StartClick(int x, int y);
@@ -32,6 +31,8 @@ public:
     void DragClick(int x, int y);
     
     ofRectangle GetCropBox();
+    
+    void SetVideoSize(ofRectangle videoPlayerRect);
     
 private:
     CutToolsGUI * _cutParameters;

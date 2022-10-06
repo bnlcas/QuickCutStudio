@@ -14,6 +14,7 @@
 #include "ofxGui.h"
 #include "VideoPreview.hpp"
 #include "CutToolsGUI.hpp"
+#include "CropTool.hpp"
 
 using namespace std;
 
@@ -40,7 +41,7 @@ class ClipProcessor : public ofThread{
 public:
     ClipProcessor(){};
     
-    void Setup(float x, float y, VideoPreview * preview, CutToolsGUI * cutParameters);
+    void Setup(float x, float y, VideoPreview * preview, CutToolsGUI * cutParameters, CropTool * crop);
     
     void Draw();
     
@@ -55,6 +56,7 @@ private:
     
     VideoPreview * _videoPreview;
     CutToolsGUI * _cutParameters;
+    CropTool * _cropTool;
 
     bool _isProcessing = false;
     int _clipCount = 1;

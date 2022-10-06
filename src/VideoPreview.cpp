@@ -10,7 +10,8 @@
 
 void VideoPreview::Setup(ofRectangle bounds, float gui_x, float gui_y)
 {
-    _previewPlayer.load("test.mp4");
+    _videoPlayerBounds = bounds;
+    SetFile("test.mp4");
     _previewPlayer.setLoopState(OF_LOOP_NORMAL);
             
     _pausePlayToggle.addListener(this, &VideoPreview::TogglePlay);
@@ -25,12 +26,14 @@ void VideoPreview::Setup(ofRectangle bounds, float gui_x, float gui_y)
     _gui.add(_forwardFrame.setup("Next Frame"));
     _gui.add(_backFrame.setup("Prior Frame"));
     _gui.setPosition(gui_x, gui_y);
-    _videoPlayerBounds = bounds;
 }
 
 void VideoPreview::SetFile(string fileName)
 {
     _previewPlayer.load(fileName);
+    float newWidth = _videoPlayerBounds.height * (_previewPlayer.getWidth() / _previewPlayer.getHeight());
+    
+    _videoPlayerBounds.width = newWidth;
 }
 
 std::string VideoPreview::GetFile()
@@ -50,6 +53,7 @@ void VideoPreview::Update()
 void VideoPreview::Draw()
 {
     _gui.draw();
+    
     _previewPlayer.draw(_videoPlayerBounds);
 }
 
@@ -62,7 +66,12 @@ float VideoPreview::GetVideoWidth()
 {
     return _previewPlayer.getWidth();
 }
-    
+
+ofRectangle VideoPreview::GetVideoRect()
+{
+    return _videoPlayerBounds;
+}
+
 void VideoPreview::SetCurrentPrecentage(float & position)
 {
     PauseVideo();

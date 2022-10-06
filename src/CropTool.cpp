@@ -11,7 +11,7 @@
 void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters)
 {
     _videoPreviewBounds = videoPlayerRect;
-    _cropBox = videoPlayerRect;
+    _cropBox = ofRectangle(_videoPreviewBounds.x, _videoPreviewBounds.y, _videoPreviewBounds.width, _videoPreviewBounds.height);
     _cutParameters = cutParameters;
     _cropShader.load("shaders/crop.vert", "shaders/crop.frag");
 }
@@ -52,6 +52,12 @@ ofRectangle CropTool::GetCropBox()
 {
     return _cropBox;
 }
+
+void CropTool::SetVideoSize(ofRectangle videoPlayerRect)
+{
+    _videoPreviewBounds = videoPlayerRect;
+}
+
 
 bool CropTool::IsInbounds(int x, int y)
 {

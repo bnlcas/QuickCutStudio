@@ -30,6 +30,8 @@ public:
     float GetVideoDuration();
     
     float GetVideoWidth();
+    
+    ofRectangle GetVideoRect();
         
     void SetCurrentPrecentage(float & position);
     
