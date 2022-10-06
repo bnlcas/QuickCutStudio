@@ -57,6 +57,11 @@ float VideoPreview::GetVideoDuration()
 {
     return _previewPlayer.getDuration();
 }
+
+float VideoPreview::GetVideoWidth()
+{
+    return _previewPlayer.getWidth();
+}
     
 void VideoPreview::SetCurrentPrecentage(float & position)
 {

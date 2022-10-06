@@ -6,11 +6,13 @@
 //
 
 #include "CropTool.hpp"
+#include <cmath>
 
-void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y)
+void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters)
 {
     _videoPreviewBounds = videoPlayerRect;
     _cropBox = videoPlayerRect;
+    _cutParameters = cutParameters;
 }
  
 void CropTool::DrawCropPreview()
@@ -52,8 +54,18 @@ void CropTool::ConstrainCropBox(int x, int y)
 
     y = (y < _videoPreviewBounds.getTop()) ? _videoPreviewBounds.getTop() : y;
     y = (y > _videoPreviewBounds.getBottom()) ? _videoPreviewBounds.getBottom() : y;
+    
     int w = x - _initial_x;
-    int h =  y - _initial_y;
+    int h = y - _initial_y;
+    
+    if(abs(w) > abs(h * _cutParameters->GetAspectRatio()))
+    {
+        h = (int) ((float) w / _cutParameters->GetAspectRatio());
+    }
+    else
+    {
+        w =(int) ((float) h * _cutParameters->GetAspectRatio());
+    }
        
     _cropBox.setWidth(w);
     _cropBox.setHeight(h);

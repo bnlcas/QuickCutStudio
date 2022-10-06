@@ -19,11 +19,22 @@ public:
     
     void Setup(float x, float y, VideoPreview * videoPreview);
     
+    void ConfigureCutSettings();
+    
     void DrawGUI();
     
     float GetStartTime();
     
     float GetEndTime();
+    
+    bool IsPortait();
+    
+    void SetApsectRatio(bool & isPortrait);
+    
+    float GetAspectRatio();
+    
+    ofVec2f GetOutputSize();
+
     
 private:
     VideoPreview * _videoPreview;

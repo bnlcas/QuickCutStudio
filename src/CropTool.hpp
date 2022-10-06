@@ -20,7 +20,7 @@ class CropTool
 public:
     CropTool(){};
     
-    void Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y);
+    void Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters);
      
     void DrawCropPreview();
     
@@ -34,7 +34,7 @@ public:
     ofRectangle GetCropBox();
     
 private:
-    //CutToolsGUI _cutToolsGUIParams;
+    CutToolsGUI * _cutParameters;
     
     bool _isClicked = false;
     ofRectangle _videoPreviewBounds;

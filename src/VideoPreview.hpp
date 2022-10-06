@@ -28,6 +28,8 @@ public:
     void Draw();
     
     float GetVideoDuration();
+    
+    float GetVideoWidth();
         
     void SetCurrentPrecentage(float & position);
     
