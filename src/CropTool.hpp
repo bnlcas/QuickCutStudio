@@ -44,10 +44,14 @@ private:
     
     ofRectangle _cropBox;
     
+    ofShader _cropShader;
+    
     bool IsInbounds(int x, int y);
     
     void ConstrainCropBox(int x, int y);
     
-    void InitializeCropBox(int x, int y);    
+    void InitializeCropBox(int x, int y);
+    
+    void FadeCropRegion();
 };
 #endif /* CropTool_hpp */

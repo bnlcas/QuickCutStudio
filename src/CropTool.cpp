@@ -13,12 +13,14 @@ void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutT
     _videoPreviewBounds = videoPlayerRect;
     _cropBox = videoPlayerRect;
     _cutParameters = cutParameters;
+    _cropShader.load("shaders/crop.vert", "shaders/crop.frag");
 }
  
 void CropTool::DrawCropPreview()
 {
     if(_cutParameters->IsCropped())
     {
+        FadeCropRegion();
         ofNoFill();
         ofSetColor(255, 255,255, 255);
         ofDrawRectangle(_cropBox);
@@ -88,4 +90,24 @@ void CropTool::InitializeCropBox(int x, int y)
     _cropBox.setY(y);
     _cropBox.setWidth(0);
     _cropBox.setHeight(0);
+}
+
+void CropTool::FadeCropRegion()
+{
+    _cropShader.begin();
+    
+    _cropShader.setUniform1f("left", _videoPreviewBounds.getLeft());
+    _cropShader.setUniform1f("right", _videoPreviewBounds.getRight());
+    _cropShader.setUniform1f("top", (float)ofGetHeight() - _videoPreviewBounds.getTop());
+    _cropShader.setUniform1f("bottom", (float)ofGetHeight() - _videoPreviewBounds.getBottom());
+    
+    _cropShader.setUniform1f("cropLeft", _cropBox.getLeft());
+    _cropShader.setUniform1f("cropRight", _cropBox.getRight());
+    _cropShader.setUniform1f("cropTop", (float)ofGetHeight() - _cropBox.getTop());
+    _cropShader.setUniform1f("cropBottom", (float)ofGetHeight() - _cropBox.getBottom());
+
+    ofSetColor(200, 200, 200, 200);
+    ofFill();
+    ofDrawRectangle(ofRectangle(0,0,(float)ofGetWidth(), (float)ofGetHeight()));
+    _cropShader.end();
 }
