@@ -17,35 +17,13 @@ class CutToolsGUI
 public:
     CutToolsGUI(){};
     
-    void Setup(float x, float y, VideoPreview * videoPreview)
-    {
-        _gui.setup();
-        _gui.add(_startTime.set("Clip Start Time", 0, 0, 100));
-        _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
-        _gui.add(_outWidth.set("Out Width", 320, 960, 640));
-        _gui.add(_outHeight.set("Out Height", 320, 960, 640));
-        _gui.setPosition(x,y);
-        
-        _startTime.addListener(this, &CutToolsGUI::SetClipTime);
-        _endTime.addListener(this, &CutToolsGUI::SetClipTime);
-
-        _videoPreview = videoPreview;
-    }
+    void Setup(float x, float y, VideoPreview * videoPreview);
     
-    void DrawGUI()
-    {
-        _gui.draw();
-    }
+    void DrawGUI();
     
-    float GetStartTime()
-    {
-        return _startTime.get();
-    }
+    float GetStartTime();
     
-    float GetEndTime()
-    {
-        return _endTime.get();
-    }
+    float GetEndTime();
     
 private:
     VideoPreview * _videoPreview;
@@ -65,15 +43,7 @@ private:
     
     ofxButton _toggleCropTool;
     
-    void SetClipTime(float & time)
-    {
-        //_videoPreview->PauseVideo();
-        float duration = _videoPreview->GetVideoDuration();
-        //_previewPlayer.setPosition(position);
-        float percentage = (time / duration);
-        percentage = (percentage > 1.0f) ? 1.0f : percentage;
-        _videoPreview->SetCurrentPrecentage( percentage );
-    }
+    void SetClipTime(float & time);
 };
 
 #endif /* CutToolsGUI_hpp */

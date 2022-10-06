@@ -6,8 +6,8 @@ void ofApp::setup(){
     float WINDOW_HEIGHT = 768.0;
     float videoW = WINDOW_WIDTH/2;
     float videoH = 2 * WINDOW_HEIGHT / 3;
-    float videoX = 100;//(WINDOW_WIDTH - videoW) / 3;
-    float videoY = 100;//WINDOW_HEIGHT / 6;
+    float videoX = 50;//(WINDOW_WIDTH - videoW) / 3;
+    float videoY = 50;//WINDOW_HEIGHT / 6;
     ofRectangle VideoPreviewRegion = ofRectangle(videoX, videoY, videoW, videoH);
     
     float gui_y = videoY + videoH + 25;
