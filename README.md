@@ -21,4 +21,4 @@ This project is a work in progress.
 ## Use
 Currently this supports only the most basic cuts.
 The latest build is 
-((here)[https://drive.google.com/file/d/1AnnnJeH1PXhWaJAcr5EAsonN2gsLVRo4/view?usp=sharing]).
+([here](https://drive.google.com/file/d/1AnnnJeH1PXhWaJAcr5EAsonN2gsLVRo4/view?usp=sharing)).
