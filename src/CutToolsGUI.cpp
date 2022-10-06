@@ -12,7 +12,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.setup();
     _gui.add(_startTime.set("Clip Start Time", 0, 0, 100));
     _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
-    _gui.add(_outWidth.set("Out Width", 320, 0, 960));
+    _gui.add(_outWidth.set("Out Width", 960, 0, 960));
     _gui.add(_isPortrait.set("Is Portrait", true));
     _gui.add(_crop.set("Crop Video", false));
     

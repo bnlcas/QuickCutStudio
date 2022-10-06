@@ -42,6 +42,8 @@ void ClipProcessor::CutClip()
     ofVec2f outSize = _cutParameters->GetOutputSize();
     int outWidth = (int) outSize.x;
     int outHeight = (int) outSize.y;
+    outWidth = 2 * (outWidth / 2);
+    outHeight = 2 * (outHeight / 2);
     AspectSize clipSize  { outWidth, outHeight };
     
     std::string outCommand = FormatFFMPEGCommand(originalFile, out_dir+"/"+filenameOut, clipInterval, clipSize);
@@ -81,18 +83,22 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
     command += " -ss " + to_string(clipInterval.startTime);
     command += " -t " + to_string(duration);
     
-    /*
+    
     command += " -vf \"";
     if(_cutParameters->IsCropped())
     {
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
+        int x0 = _cropTool->GetCropBox().getLeft();
+        int y0 =_cropTool->GetCropBox().getTop();
+        int w = _cropTool->GetCropBox().width;
+        int h = _cropTool->GetCropBox().height;
         
-        string crop_bbox = "crop=" + to_string(crop.width) + ":" + to_string(crop.height) + ":" + to_string(crop.x) + ":" + to_string(crop.height) + ",";
+        string crop_bbox = "crop=" + to_string(w) + ":" + to_string(h) + ":" + to_string(x0) + ":" + to_string(y0) + ",";
         command += crop_bbox;
     }
     string aspect = "scale=" + to_string(clipSize.width) + ":" + to_string(clipSize.height) + "\"";
     command += aspect;
-    */
+    
     command += " " + fOut;
     return command;
 };
