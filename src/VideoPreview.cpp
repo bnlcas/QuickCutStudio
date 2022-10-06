@@ -10,7 +10,7 @@
 
 void VideoPreview::Setup(ofRectangle bounds, float gui_x, float gui_y)
 {
-    _previewPlayer.load("GreenPointSunset.mov");
+    _previewPlayer.load("test.mp4");
     _previewPlayer.setLoopState(OF_LOOP_NORMAL);
             
     _pausePlayToggle.addListener(this, &VideoPreview::TogglePlay);

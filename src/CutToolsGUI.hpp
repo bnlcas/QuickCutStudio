@@ -29,6 +29,8 @@ public:
     
     bool IsPortait();
     
+    bool IsCropped();
+    
     void SetApsectRatio(bool & isPortrait);
     
     float GetAspectRatio();
@@ -50,9 +52,8 @@ private:
     
     ofParameter<bool> _is916;
     ofParameter<bool> _isPortrait;
-
     
-    ofxButton _toggleCropTool;
+    ofParameter<bool> _crop;
     
     void SetClipTime(float & time);
 };

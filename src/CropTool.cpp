@@ -17,9 +17,12 @@ void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutT
  
 void CropTool::DrawCropPreview()
 {
-    ofNoFill();
-    ofSetColor(255, 255,255, 255);
-    ofDrawRectangle(_cropBox);
+    if(_cutParameters->IsCropped())
+    {
+        ofNoFill();
+        ofSetColor(255, 255,255, 255);
+        ofDrawRectangle(_cropBox);
+    }
 }
 
 void CropTool::CheckClick(int x, int y)
@@ -29,12 +32,18 @@ void CropTool::CheckClick(int x, int y)
 
 void CropTool::StartClick(int x, int y)
 {
-    InitializeCropBox(x,y);
+    if(_cutParameters->IsCropped())
+    {
+        InitializeCropBox(x,y);
+    }
 }
 
 void CropTool::DragClick(int x, int y)
 {
-    CropTool::ConstrainCropBox(x,y);
+    if(_cutParameters->IsCropped())
+    {
+        CropTool::ConstrainCropBox(x,y);
+    }
 }
 
 ofRectangle CropTool::GetCropBox()

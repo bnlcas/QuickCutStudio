@@ -14,6 +14,8 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
     _gui.add(_outWidth.set("Out Width", 320, 0, 960));
     _gui.add(_isPortrait.set("Is Portrait", true));
+    _gui.add(_crop.set("Crop Video", false));
+    
     _gui.setPosition(x,y);
     
     _startTime.addListener(this, &CutToolsGUI::SetClipTime);
@@ -31,6 +33,8 @@ void CutToolsGUI::ConfigureCutSettings()
     _startTime.set("Clip Start Time", 0, 0, duration);
     _endTime.set("Clip End Time", duration, 0, duration);
     _outWidth.set("Output Width", width, 0, width);
+    _crop.set("Crop Video", false);
+
 }
 
 void CutToolsGUI::DrawGUI()
@@ -51,6 +55,11 @@ float CutToolsGUI::GetEndTime()
 bool CutToolsGUI::IsPortait()
 {
     return _isPortrait;
+}
+
+bool CutToolsGUI::IsCropped()
+{
+    return _crop.get();
 }
 
 void CutToolsGUI::SetApsectRatio(bool & isPortrait)

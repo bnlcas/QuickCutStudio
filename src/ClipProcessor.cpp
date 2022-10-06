@@ -41,18 +41,12 @@ void ClipProcessor::CutClip()
     float clipEndTime = _cutParameters->GetEndTime();
     Interval clipInterval { clipStartTime, clipEndTime };
             
-    int outWidth = 640;
-    int outHeight = 320;
-    
+    ofVec2f outSize = _cutParameters->GetOutputSize();
+    int outWidth = (int) outSize.x;
+    int outHeight = (int) outSize.y;
     AspectSize clipSize  { outWidth, outHeight };
     
-    int crop_X = 0;
-    int crop_Y = 0;
-    int crop_W = 640;
-    int crop_H = 320;
-    BoundingBox bbox { crop_X, crop_Y, crop_W, crop_H };
-    
-    std::string outCommand = FormatFFMPEGCommand(originalFile, out_dir+"/"+filenameOut, clipInterval, clipSize, bbox);
+    std::string outCommand = FormatFFMPEGCommand(originalFile, out_dir+"/"+filenameOut, clipInterval, clipSize);
     
     //ofLogNotice() << outCommand;
     
@@ -78,20 +72,24 @@ void ClipProcessor::UploadClip(){
     }
 }
 
-string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clipInterval, AspectSize clipSize, BoundingBox crop){
+string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clipInterval, AspectSize clipSize){
     string command = "ffmpeg -i ";
     command += fIn;
     float duration = clipInterval.endTime - clipInterval.startTime;
     command += " -ss " + to_string(clipInterval.startTime);
     command += " -t " + to_string(duration);
     
-    /*
-    string crop_bbox = "crop=" + to_string(crop.w) + ":" + to_string(crop.h) + ":" + to_string(crop.x) + ":" + to_string(crop.h);
-
+    command += " -vf \"";
+    if(_cutParameters->IsCropped())
+    {
+        ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
+        
+        string crop_bbox = "crop=" + to_string(crop.width) + ":" + to_string(crop.height) + ":" + to_string(crop.x) + ":" + to_string(crop.height) + ",";
+        command += crop_bbox;
+    }
     string aspect = "size=" + to_string(clipSize.width) + ":" + to_string(clipSize.height);
     
-    command += " -vf "  + to_string('"') +  crop_bbox + "," + aspect +  to_string('"');
-     */
+    command += aspect +  to_string('\"');
     command += " " + fOut;
     return command;
 };

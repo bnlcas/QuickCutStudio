@@ -61,7 +61,7 @@ private:
     
     void UploadClip();
     
-    string FormatFFMPEGCommand(string fIn, string fOut, Interval clipInterval, AspectSize clipSize, BoundingBox crop);
+    string FormatFFMPEGCommand(string fIn, string fOut, Interval clipInterval, AspectSize clipSize);
 };
 
 
