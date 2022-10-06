@@ -47,8 +47,7 @@ private:
     ofParameter<float> _startTime;
     ofParameter<float> _endTime;
     
-    ofParameter<int> _outWidth;
-    ofParameter<int> _outHeight;
+    ofParameter<float> _outWidth;
     
     ofParameter<bool> _is916;
     ofParameter<bool> _isPortrait;
