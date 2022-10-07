@@ -8,10 +8,10 @@
 #include "CropTool.hpp"
 #include <cmath>
 
-void CropTool::Setup(ofRectangle videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters)
+void CropTool::Setup(ofRectangle * videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters)
 {
     _videoPreviewBounds = videoPlayerRect;
-    _cropBox = ofRectangle(_videoPreviewBounds.x, _videoPreviewBounds.y, _videoPreviewBounds.width, _videoPreviewBounds.height);
+    _cropBox = ofRectangle(_videoPreviewBounds->x, _videoPreviewBounds->y, _videoPreviewBounds->width, _videoPreviewBounds->height);
     _cutParameters = cutParameters;
     _cropShader.load("shaders/crop.vert", "shaders/crop.frag");
 }
@@ -34,7 +34,7 @@ void CropTool::CheckClick(int x, int y)
 
 void CropTool::StartClick(int x, int y)
 {
-    if(_cutParameters->IsCropped())
+    if(_cutParameters->IsCropped() && IsInbounds(x, y))
     {
         InitializeCropBox(x,y);
     }
@@ -53,7 +53,7 @@ ofRectangle CropTool::GetCropBox()
     return _cropBox;
 }
 
-void CropTool::SetVideoSize(ofRectangle videoPlayerRect)
+void CropTool::SetVideoSize(ofRectangle * videoPlayerRect)
 {
     _videoPreviewBounds = videoPlayerRect;
 }
@@ -61,16 +61,16 @@ void CropTool::SetVideoSize(ofRectangle videoPlayerRect)
 
 bool CropTool::IsInbounds(int x, int y)
 {
-    return _videoPreviewBounds.inside(x,y);
+    return _videoPreviewBounds->inside(x,y);
 }
 
 void CropTool::ConstrainCropBox(int x, int y)
 {
-    x = (x < _videoPreviewBounds.getLeft()) ? _videoPreviewBounds.getLeft() : x;
-    x = (x > _videoPreviewBounds.getRight()) ? _videoPreviewBounds.getRight() : x;
+    x = (x < _videoPreviewBounds->getLeft()) ? _videoPreviewBounds->getLeft() : x;
+    x = (x > _videoPreviewBounds->getRight()) ? _videoPreviewBounds->getRight() : x;
 
-    y = (y < _videoPreviewBounds.getTop()) ? _videoPreviewBounds.getTop() : y;
-    y = (y > _videoPreviewBounds.getBottom()) ? _videoPreviewBounds.getBottom() : y;
+    y = (y < _videoPreviewBounds->getTop()) ? _videoPreviewBounds->getTop() : y;
+    y = (y > _videoPreviewBounds->getBottom()) ? _videoPreviewBounds->getBottom() : y;
     
     int w = x - _initial_x;
     int h = y - _initial_y;
@@ -102,10 +102,10 @@ void CropTool::FadeCropRegion()
 {
     _cropShader.begin();
     
-    _cropShader.setUniform1f("left", _videoPreviewBounds.getLeft());
-    _cropShader.setUniform1f("right", _videoPreviewBounds.getRight());
-    _cropShader.setUniform1f("top", (float)ofGetHeight() - _videoPreviewBounds.getTop());
-    _cropShader.setUniform1f("bottom", (float)ofGetHeight() - _videoPreviewBounds.getBottom());
+    _cropShader.setUniform1f("left", _videoPreviewBounds->getLeft());
+    _cropShader.setUniform1f("right", _videoPreviewBounds->getRight());
+    _cropShader.setUniform1f("top", (float)ofGetHeight() - _videoPreviewBounds->getTop());
+    _cropShader.setUniform1f("bottom", (float)ofGetHeight() - _videoPreviewBounds->getBottom());
     
     _cropShader.setUniform1f("cropLeft", _cropBox.getLeft());
     _cropShader.setUniform1f("cropRight", _cropBox.getRight());

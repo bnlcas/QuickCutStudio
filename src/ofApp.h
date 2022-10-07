@@ -32,4 +32,5 @@ class ofApp : public ofBaseApp{
         VideoPreview _videoPreview;
         ClipProcessor _clipProcessor;
         CropTool _cropTool;
+        ofRectangle _videoPreviewRegion;
 };

@@ -19,6 +19,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     
     _gui.setPosition(x,y);
     
+    //ofEvents().mouseReleased
     _startTime.addListener(this, &CutToolsGUI::SetClipTime);
     _endTime.addListener(this, &CutToolsGUI::SetClipTime);
     _isPortrait.addListener(this, &CutToolsGUI::SetApsectRatio);

@@ -2,18 +2,20 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetWindowTitle("Quick Cut Studio");
+    
     float WINDOW_WIDTH = 1024.0;
     float WINDOW_HEIGHT = 768.0;
     float videoW = WINDOW_WIDTH/2;
     float videoH = 2 * WINDOW_HEIGHT / 3;
     float videoX = 50;//(WINDOW_WIDTH - videoW) / 3;
     float videoY = 50;//WINDOW_HEIGHT / 6;
-    ofRectangle VideoPreviewRegion = ofRectangle(videoX, videoY, videoW, videoH);
+    _videoPreviewRegion = ofRectangle(videoX, videoY, videoW, videoH);
     
     float gui_y = videoY + videoH + 25;
-    _videoPreview.Setup(VideoPreviewRegion, videoX,  gui_y);
+    _videoPreview.Setup(& _videoPreviewRegion, videoX,  gui_y);
     _cutToolsGui.Setup(videoX+250.0f, gui_y, &_videoPreview);
-    _cropTool.Setup(VideoPreviewRegion, videoX + 750.0f, gui_y, &_cutToolsGui);
+    _cropTool.Setup(& _videoPreviewRegion, videoX + 750.0f, gui_y, &_cutToolsGui);
     _clipProcessor.Setup(videoX + 500.0f, gui_y, &_videoPreview, &_cutToolsGui, & _cropTool);
 }
 

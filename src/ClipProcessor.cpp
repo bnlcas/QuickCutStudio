@@ -71,7 +71,7 @@ void ClipProcessor::UploadClip(){
     if(result.bSuccess) {
         string path = result.getPath();
         _videoPreview->SetFile(path);
-        _cropTool->SetVideoSize(_videoPreview->GetVideoRect());
+        //_cropTool->SetVideoSize(_videoPreview->GetVideoRect());
         ofLogNotice() << path;
     }
 }
@@ -85,6 +85,11 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
     
     
     command += " -vf \"";
+    if(_cutParameters->GetPlaybackSpeed() > 1)
+    {
+        string playBackcommand = "setpts=PTS/" + to_string(_cutParameters->GetPlaybackSpeed()) +  ",";
+        command += playBackcommand;
+    }
     if(_cutParameters->IsCropped())
     {
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
@@ -96,12 +101,7 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
         string crop_bbox = "crop=" + to_string(w) + ":" + to_string(h) + ":" + to_string(x0) + ":" + to_string(y0) + ",";
         command += crop_bbox;
     }
-    if(_cutParameters->GetPlaybackSpeed() > 1)
-    {
-        string playBackcommand = "setpts=PTS/" + to_string(_cutParameters->GetPlaybackSpeed()) +  ",";
-        command += playBackcommand;
-    }
-    
+
     string aspect = "scale=" + to_string(clipSize.width) + ":" + to_string(clipSize.height) + "\"";
     command += aspect;
     
