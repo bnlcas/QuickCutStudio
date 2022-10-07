@@ -93,8 +93,8 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
     if(_cutParameters->IsCropped())
     {
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
-        int x0 = _cropTool->GetCropBox().getLeft();
-        int y0 =_cropTool->GetCropBox().getTop();
+        int x0 = _cropTool->GetCropBox().getLeft() - _videoPreview->GetVideoRect().getLeft();
+        int y0 =_cropTool->GetCropBox().getTop()-_videoPreview->GetVideoRect().getTop();
         int w = _cropTool->GetCropBox().width;
         int h = _cropTool->GetCropBox().height;
         
