@@ -36,6 +36,8 @@ public:
     float GetAspectRatio();
     
     ofVec2f GetOutputSize();
+    
+    int GetPlaybackSpeed();
 
     
 private:
@@ -48,6 +50,8 @@ private:
     ofParameter<float> _endTime;
     
     ofParameter<float> _outWidth;
+    
+    ofParameter<int> _playbackSpeed;
     
     ofParameter<bool> _is916;
     ofParameter<bool> _isPortrait;

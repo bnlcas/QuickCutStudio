@@ -13,6 +13,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.add(_startTime.set("Clip Start Time", 0, 0, 100));
     _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
     _gui.add(_outWidth.set("Out Width", 960, 0, 960));
+    _gui.add(_playbackSpeed.set("Playback Speed", 1,1,8));
     _gui.add(_isPortrait.set("Is Portrait", true));
     _gui.add(_crop.set("Crop Video", false));
     
@@ -50,6 +51,11 @@ float CutToolsGUI::GetStartTime()
 float CutToolsGUI::GetEndTime()
 {
     return _endTime.get();
+}
+
+int CutToolsGUI::GetPlaybackSpeed()
+{
+    return _playbackSpeed.get();
 }
 
 bool CutToolsGUI::IsPortait()
