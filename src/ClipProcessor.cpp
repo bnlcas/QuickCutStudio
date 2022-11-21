@@ -77,34 +77,56 @@ void ClipProcessor::UploadClip(){
 }
 
 string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clipInterval, AspectSize clipSize){
-    string command = "ffmpeg -y -i ";
+    string command = "ffmpeg -y -v 0 -i ";
     command += fIn;
     float duration = clipInterval.endTime - clipInterval.startTime;
     command += " -ss " + to_string(clipInterval.startTime);
     command += " -t " + to_string(duration);
     
     
-    command += " -vf \"";
+    
+    string vfxCommand = " -vf \"";
+    bool addVfx = false;
     if(_cutParameters->GetPlaybackSpeed() > 1)
     {
-        string playBackcommand = "setpts=PTS/" + to_string(_cutParameters->GetPlaybackSpeed()) +  ",";
-        command += playBackcommand;
+        string playBackcommand = "setpts=PTS/" + to_string(_cutParameters->GetPlaybackSpeed());
+        vfxCommand += playBackcommand;
+        addVfx = true;
     }
     if(_cutParameters->IsCropped())
     {
+        if(addVfx)
+        {
+            vfxCommand += ",";
+        }
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
         int x0 = _cropTool->GetCropBox().getLeft() - _videoPreview->GetVideoRect().getLeft();
         int y0 =_cropTool->GetCropBox().getTop()-_videoPreview->GetVideoRect().getTop();
         int w = _cropTool->GetCropBox().width;
         int h = _cropTool->GetCropBox().height;
         
-        string crop_bbox = "crop=" + to_string(w) + ":" + to_string(h) + ":" + to_string(x0) + ":" + to_string(y0) + ",";
-        command += crop_bbox;
+        string crop_bbox = "crop=" + to_string(w) + ":" + to_string(h) + ":" + to_string(x0) + ":" + to_string(y0);
+        vfxCommand += crop_bbox;
+        addVfx = true;
     }
-
-    string aspect = "scale=" + to_string(clipSize.width) + ":" + to_string(clipSize.height) + "\"";
-    command += aspect;
+    bool scale = true;
+    if(scale)
+    {
+        if(addVfx)
+        {
+            vfxCommand += ",";
+        }
+        string aspect = "scale=" + to_string(clipSize.width) + ":" + to_string(clipSize.height);
+        vfxCommand += aspect;
+        addVfx = true;
+    }
+    vfxCommand += "\"";
     
+    if(addVfx)
+    {
+        command += vfxCommand;
+    }
     command += " " + fOut;
+    ofLogNotice() << command;
     return command;
 };

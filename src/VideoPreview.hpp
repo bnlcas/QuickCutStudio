@@ -17,7 +17,7 @@ class VideoPreview{
 public:
     VideoPreview(){};
     
-    void Setup(ofRectangle bounds, float gui_x, float gui_y);
+    void Setup(ofRectangle * bounds, float gui_x, float gui_y);
     
     void SetFile(string fileName);
     
@@ -47,7 +47,7 @@ private:
     //CutToolsGUI _cutToolsGUIParams;
     bool _frameByframe = false;
     ofVideoPlayer _previewPlayer;
-    ofRectangle _videoPlayerBounds;
+    ofRectangle * _videoPlayerBounds;
     bool _isPlaying = false;
     
     ofxGuiGroup _gui;

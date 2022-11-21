@@ -8,7 +8,7 @@
 #include "VideoPreview.hpp"
 
 
-void VideoPreview::Setup(ofRectangle bounds, float gui_x, float gui_y)
+void VideoPreview::Setup(ofRectangle * bounds, float gui_x, float gui_y)
 {
     _videoPlayerBounds = bounds;
     SetFile("test.mp4");
@@ -31,9 +31,9 @@ void VideoPreview::Setup(ofRectangle bounds, float gui_x, float gui_y)
 void VideoPreview::SetFile(string fileName)
 {
     _previewPlayer.load(fileName);
-    float newWidth = _videoPlayerBounds.height * (_previewPlayer.getWidth() / _previewPlayer.getHeight());
+    float newWidth = _videoPlayerBounds->height * (_previewPlayer.getWidth() / _previewPlayer.getHeight());
     
-    _videoPlayerBounds.width = newWidth;
+    _videoPlayerBounds->width = newWidth;
 }
 
 std::string VideoPreview::GetFile()
@@ -54,7 +54,7 @@ void VideoPreview::Draw()
 {
     _gui.draw();
     
-    _previewPlayer.draw(_videoPlayerBounds);
+    _previewPlayer.draw(_videoPlayerBounds->x, _videoPlayerBounds->y, _videoPlayerBounds->width, _videoPlayerBounds->height);
 }
 
 float VideoPreview::GetVideoDuration()
@@ -69,7 +69,7 @@ float VideoPreview::GetVideoWidth()
 
 ofRectangle VideoPreview::GetVideoRect()
 {
-    return _videoPlayerBounds;
+    return ofRectangle(_videoPlayerBounds->x, _videoPlayerBounds->y, _videoPlayerBounds->width, _videoPlayerBounds->height) ;
 }
 
 void VideoPreview::SetCurrentPrecentage(float & position)

@@ -90,7 +90,7 @@ ofVec2f CutToolsGUI::GetOutputSize()
 {
     float w = _outWidth.get();
     float aspectRatio = 0.5625;// 9:16
-    float h = _isPortrait.get() ? w * aspectRatio : w / aspectRatio;
+    float h = _isPortrait.get() ? w / aspectRatio : w * aspectRatio;
     return ofVec2f(w, h);
 }
 
