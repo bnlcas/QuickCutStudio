@@ -32,8 +32,9 @@ void ClipProcessor::CutClip()
 {
     _isProcessing = true;
     std::string originalFile = _videoPreview->GetFile();
-    std::string out_dir = ofFilePath::getAbsolutePath("Clips");
-    std::string filenameOut = ofFilePath::getBaseName(originalFile) + "_" + to_string(_clipCount) + "." + ofFilePath::getFileExt(originalFile);
+    //std::string out_dir = ofFilePath::getAbsolutePath("Clips");
+    std::string out_dir = ofFilePath::getEnclosingDirectory(originalFile);
+    std::string filenameOut = ofFilePath::getBaseName(originalFile) + "_Clip_" + to_string(_clipCount) + "." + ofFilePath::getFileExt(originalFile);
 
     float clipStartTime = _cutParameters->GetStartTime();
     float clipEndTime = _cutParameters->GetEndTime();
