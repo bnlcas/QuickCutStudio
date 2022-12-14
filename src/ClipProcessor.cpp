@@ -100,10 +100,18 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
             vfxCommand += ",";
         }
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
-        int x0 = _cropTool->GetCropBox().getLeft() - _videoPreview->GetVideoRect().getLeft();
-        int y0 =_cropTool->GetCropBox().getTop()-_videoPreview->GetVideoRect().getTop();
-        int w = _cropTool->GetCropBox().width;
-        int h = _cropTool->GetCropBox().height;
+        
+        ofRectangle videoRect = _videoPreview->GetVideoRect();
+        float scaleX =  _videoPreview->GetVideoWidth() / videoRect.width;
+        float scaleY =  _videoPreview->GetVideoWidth() / videoRect.height;
+
+        int x0 = scaleX * (_cropTool->GetCropBox().getLeft() - videoRect.getLeft());
+        int y0 = scaleY * (_cropTool->GetCropBox().getTop() - videoRect.getTop());
+        int w = scaleX * _cropTool->GetCropBox().width;
+        int h = scaleY * _cropTool->GetCropBox().height;
+        
+        //ofLogNotice() << "w: " << w << " vw: " << _videoPreview->GetVideoWidth() << " pw: " << videoRect.width;
+        //ofLogNotice() << "scale X: " << scaleX << " y:" << scaleY;
         
         string crop_bbox = "crop=" + to_string(w) + ":" + to_string(h) + ":" + to_string(x0) + ":" + to_string(y0);
         vfxCommand += crop_bbox;

@@ -14,7 +14,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
     _gui.add(_outWidth.set("Out Width", 960, 0, 960));
     _gui.add(_playbackSpeed.set("Playback Speed", 1,1,8));
-    _gui.add(_isPortrait.set("Is Portrait", true));
+    _gui.add(_isPortrait.set("Is Portrait", false));
     _gui.add(_crop.set("Crop Video", false));
     
     _gui.setPosition(x,y);
@@ -91,6 +91,8 @@ ofVec2f CutToolsGUI::GetOutputSize()
     float w = _outWidth.get();
     float aspectRatio = 0.5625;// 9:16
     float h = _isPortrait.get() ? w / aspectRatio : w * aspectRatio;
+    w = 2560;
+    h = 1440;
     return ofVec2f(w, h);
 }
 
@@ -98,6 +100,10 @@ void CutToolsGUI::SetClipTime(float & time)
 {
     //_videoPreview->PauseVideo();
     float duration = _videoPreview->GetVideoDuration();
+
+    _startTime.set("Clip Start Time", 0, 0, duration);
+    _endTime.set("Clip End Time", duration, 0, duration);
+    
     //_previewPlayer.setPosition(position);
     float percentage = (time / duration);
     percentage = (percentage > 1.0f) ? 1.0f : percentage;
