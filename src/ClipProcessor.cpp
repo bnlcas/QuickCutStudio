@@ -101,13 +101,13 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
         ofRectangle crop = ofRectangle(0.0f,0.0f, clipSize.width, clipSize.height);
         
         ofRectangle videoRect = _videoPreview->GetVideoRect();
-        float scaleX =  _videoPreview->GetVideoWidth() / videoRect.width;
-        float scaleY =  _videoPreview->GetVideoWidth() / videoRect.height;
-
-        int x0 = scaleX * (_cropTool->GetCropBox().getLeft() - videoRect.getLeft());
-        int y0 = scaleY * (_cropTool->GetCropBox().getTop() - videoRect.getTop());
-        int w = scaleX * _cropTool->GetCropBox().width;
-        int h = scaleY * _cropTool->GetCropBox().height;
+        float scale =  _videoPreview->GetVideoWidth() / videoRect.width;
+        int x0 = scale * (_cropTool->GetCropBox().getLeft() - videoRect.getLeft());
+        int y0 = scale * (_cropTool->GetCropBox().getTop() - videoRect.getTop());
+        int w = (int) (scale * _cropTool->GetCropBox().width);
+        int h = (int) (scale * _cropTool->GetCropBox().height);
+        w = 2 * (w / 2);
+        h = 2 * (h / 2);
         
         //ofLogNotice() << "w: " << w << " vw: " << _videoPreview->GetVideoWidth() << " pw: " << videoRect.width;
         //ofLogNotice() << "scale X: " << scaleX << " y:" << scaleY;

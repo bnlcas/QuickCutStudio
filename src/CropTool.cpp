@@ -111,7 +111,7 @@ void CropTool::ConstrainCropBox(int x, int y)
             h = wSign * hSign * (int) ((float) w / _cutParameters->GetAspectRatio());
         }
     }
-       
+    
     _cropBox.setWidth(w);
     _cropBox.setHeight(h);
 }
