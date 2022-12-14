@@ -22,6 +22,8 @@ public:
     
     void Setup(ofRectangle * videoPlayerRect, float gui_x, float gui_y, CutToolsGUI * cutParameters);
      
+    void ResetCropBox();
+    
     void DrawCropPreview();
     
     void CheckClick(int x, int y);

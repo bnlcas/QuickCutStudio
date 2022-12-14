@@ -12,7 +12,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.setup();
     _gui.add(_startTime.set("Clip Start Time", 0, 0, 100));
     _gui.add(_endTime.set("Clip End Time", 0, 0, 100));
-    _gui.add(_outWidth.set("Out Width", 960, 0, 960));
+    _gui.add(_outWidth.set("Out Width", 2560, 0, 2560));
     _gui.add(_playbackSpeed.set("Playback Speed", 1,1,8));
     _gui.add(_isPortrait.set("Is Portrait", false));
     _gui.add(_crop.set("Crop Video", false));
@@ -31,12 +31,11 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
 void CutToolsGUI::ConfigureCutSettings()
 {
     float duration = _videoPreview->GetVideoDuration();
-    float width = _videoPreview->GetVideoWidth();
+    float width = 2560;//_videoPreview->GetVideoWidth();
     _startTime.set("Clip Start Time", 0, 0, duration);
     _endTime.set("Clip End Time", duration, 0, duration);
     _outWidth.set("Output Width", width, 0, width);
     _crop.set("Crop Video", false);
-
 }
 
 void CutToolsGUI::DrawGUI()
@@ -101,10 +100,6 @@ void CutToolsGUI::SetClipTime(float & time)
     //_videoPreview->PauseVideo();
     float duration = _videoPreview->GetVideoDuration();
 
-    _startTime.set("Clip Start Time", 0, 0, duration);
-    _endTime.set("Clip End Time", duration, 0, duration);
-    
-    //_previewPlayer.setPosition(position);
     float percentage = (time / duration);
     percentage = (percentage > 1.0f) ? 1.0f : percentage;
     _videoPreview->SetCurrentPrecentage( percentage );

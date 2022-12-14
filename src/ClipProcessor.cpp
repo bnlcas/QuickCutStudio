@@ -71,7 +71,8 @@ void ClipProcessor::UploadClip(){
     if(result.bSuccess) {
         string path = result.getPath();
         _videoPreview->SetFile(path);
-        //_cropTool->SetVideoSize(_videoPreview->GetVideoRect());
+        _cutParameters->ConfigureCutSettings();
+        _cropTool->ResetCropBox();
         ofLogNotice() << path;
     }
 }
@@ -82,8 +83,6 @@ string ClipProcessor::FormatFFMPEGCommand(string fIn, string fOut, Interval clip
     float duration = clipInterval.endTime - clipInterval.startTime;
     command += " -ss " + to_string(clipInterval.startTime);
     command += " -t " + to_string(duration);
-    
-    
     
     string vfxCommand = " -vf \"";
     bool addVfx = false;
