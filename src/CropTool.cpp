@@ -79,14 +79,37 @@ void CropTool::ConstrainCropBox(int x, int y)
     
     int w = x - _initial_x;
     int h = y - _initial_y;
+
+    int wSign = (w > 0) ? 1 : -1;
+    int hSign = (h > 0) ? 1 : -1;
     
     if(abs(w) > abs(h * _cutParameters->GetAspectRatio()))
     {
-        h = (int) ((float) w / _cutParameters->GetAspectRatio());
+        h = wSign * hSign * (int) ((float) w / _cutParameters->GetAspectRatio());
+        if(h + _initial_y > _videoPreviewBounds->getBottom())
+        {
+            h = _videoPreviewBounds->getBottom() - _initial_y;
+            w = wSign * hSign * (int) ((float) h * _cutParameters->GetAspectRatio());
+        }
+        if(h + _initial_y < _videoPreviewBounds->getTop())
+        {
+            h = _videoPreviewBounds->getTop() - _initial_y;
+            w = wSign * hSign * (int) ((float) h * _cutParameters->GetAspectRatio());
+        }
     }
     else
     {
-        w =(int) ((float) h * _cutParameters->GetAspectRatio());
+        w = wSign * hSign * (int) ((float) h * _cutParameters->GetAspectRatio());
+        if(w + _initial_x > _videoPreviewBounds->getRight())
+        {
+            w = _videoPreviewBounds->getRight() - _initial_x;
+            h = wSign * hSign * (int) ((float) w / _cutParameters->GetAspectRatio());
+        }
+        if(w + _initial_x < _videoPreviewBounds->getLeft())
+        {
+            w = _videoPreviewBounds->getLeft() - _initial_x;
+            h = wSign * hSign * (int) ((float) w / _cutParameters->GetAspectRatio());
+        }
     }
        
     _cropBox.setWidth(w);
