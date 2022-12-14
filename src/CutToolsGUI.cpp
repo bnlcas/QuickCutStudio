@@ -20,6 +20,7 @@ void CutToolsGUI::Setup(float x, float y, VideoPreview * videoPreview)
     _gui.setPosition(x,y);
     
     //ofEvents().mouseReleased
+
     _startTime.addListener(this, &CutToolsGUI::SetClipTime);
     _endTime.addListener(this, &CutToolsGUI::SetClipTime);
     _isPortrait.addListener(this, &CutToolsGUI::SetApsectRatio);
@@ -99,7 +100,9 @@ void CutToolsGUI::SetClipTime(float & time)
 {
     //_videoPreview->PauseVideo();
     float duration = _videoPreview->GetVideoDuration();
-
+    _videoPreview->SetStartTime(_startTime.get());
+    _videoPreview->SetEndTime(_endTime.get());
+    
     float percentage = (time / duration);
     percentage = (percentage > 1.0f) ? 1.0f : percentage;
     _videoPreview->SetCurrentPrecentage( percentage );

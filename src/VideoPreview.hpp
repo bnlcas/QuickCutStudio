@@ -12,7 +12,6 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
-
 class VideoPreview{
 public:
     VideoPreview(){};
@@ -42,9 +41,14 @@ public:
     void ForwardOneFrame();
     
     void BackOneFrame();
+    
+    void SetStartTime(float x);
+    
+    void SetEndTime(float x);
                    
 private:
-    //CutToolsGUI _cutToolsGUIParams;
+    float _playbackStartTime;
+    float _playbackEndTime;
     bool _frameByframe = false;
     ofVideoPlayer _previewPlayer;
     ofRectangle * _videoPlayerBounds;

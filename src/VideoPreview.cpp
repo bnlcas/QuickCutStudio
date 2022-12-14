@@ -46,7 +46,10 @@ void VideoPreview::Update()
     _previewPlayer.update();
     if(_isPlaying)
     {
-        //_percentageComplete.set(_previewPlayer.getPosition());
+        ofLogNotice() << "cf: " << _previewPlayer.getCurrentFrame() << "duration f: " << (_playbackEndTime / _previewPlayer.getDuration());
+        if(_previewPlayer.getCurrentFrame() > (int)((float)_previewPlayer.getTotalNumFrames() * (_playbackEndTime / _previewPlayer.getDuration()))){
+            PauseVideo();
+        }
     }
 }
 
@@ -67,6 +70,16 @@ float VideoPreview::GetVideoWidth()
     return _previewPlayer.getWidth();
 }
 
+void VideoPreview::SetStartTime(float x)
+{
+    _playbackStartTime = x;
+}
+
+void VideoPreview::SetEndTime(float x)
+{
+    _playbackEndTime = x;
+}
+               
 ofRectangle VideoPreview::GetVideoRect()
 {
     return ofRectangle(_videoPlayerBounds->x, _videoPlayerBounds->y, _videoPlayerBounds->width, _videoPlayerBounds->height) ;
@@ -133,6 +146,8 @@ void VideoPreview::PauseVideo()
 
 void VideoPreview::PlayVideo()
 {
+    int startFrame = (int) (_playbackStartTime  * (float) _previewPlayer.getTotalNumFrames() / _previewPlayer.getDuration());
+    _previewPlayer.setFrame(startFrame);
     _previewPlayer.play();
     _pausePlayToggle.setName("Pause");
     _isPlaying = true;
